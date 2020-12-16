@@ -1,13 +1,7 @@
 # SAve a file with 2*(n-1) columns contaning the (n-1) independent variables and the (n-1) gradients of the trained NN with respect these variables
 
-import matplotlib.pyplot as plt
 import numpy as np
-import copy
-import os
-import sys
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 is_cuda = torch.cuda.is_available()
 

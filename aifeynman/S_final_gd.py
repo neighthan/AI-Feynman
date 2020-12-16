@@ -1,26 +1,19 @@
 # Turns a mathematical expression (already RPN turned) to pytorch expression, trains the parameters, and returns the new error, complexity and the new symbolic expression
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torch.utils.data as utils
-from torch.autograd import Variable
 import warnings
+
+import numpy as np
+import torch
 
 warnings.filterwarnings("ignore")
 import sympy
-
 from sympy import *
-from sympy.abc import x, y
+from sympy import N, Symbol, lambdify
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import Symbol, lambdify, N
 
 from .S_get_number_DL_snapped import get_number_DL_snapped
 from .S_get_symbolic_expr_error import get_symbolic_expr_error
+
 
 # parameters: path to data, RPN expression (obtained from bf)
 def final_gd(data, math_expr, lr=1e-2, N_epochs=5000):
@@ -29,9 +22,6 @@ def final_gd(data, math_expr, lr=1e-2, N_epochs=5000):
 
     def unsnap_recur(expr, param_dict, unsnapped_param_dict):
         """Recursively transform each numerical value into a learnable parameter."""
-        import sympy
-        from sympy import Symbol
-
         if (
             isinstance(expr, sympy.numbers.Float)
             or isinstance(expr, sympy.numbers.Integer)

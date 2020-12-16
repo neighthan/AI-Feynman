@@ -1,17 +1,12 @@
-from __future__ import print_function
+import os
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import pandas as pd
-import numpy as np
-import torch
-from torch.utils import data
-import pickle
-from matplotlib import pyplot as plt
 import torch.utils.data as utils
-import time
-import os
+from torch.utils import data
 
 bs = 2048
 wd = 1e-2

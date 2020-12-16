@@ -1,32 +1,20 @@
 # Adds on the pareto all the snapped versions of a given expression (all paramters are snapped in the end)
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torch.utils.data as utils
-from torch.autograd import Variable
 import copy
+import re
 import warnings
 
+import numpy as np
+
 warnings.filterwarnings("ignore")
-import sympy
-from .S_snap import integerSnap
-from .S_snap import zeroSnap
-from .S_snap import rationalSnap
-from .S_get_symbolic_expr_error import get_symbolic_expr_error
-from .get_pareto import Point, ParetoSet
 
-from sympy import preorder_traversal, count_ops
-from sympy.abc import x, y
+from sympy import Float, S, count_ops, preorder_traversal, symbols
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import Symbol, lambdify, N, simplify, powsimp, Rational, symbols, S, Float
-import re
 
+from .get_pareto import Point
 from .S_get_number_DL_snapped import get_number_DL_snapped
+from .S_get_symbolic_expr_error import get_symbolic_expr_error
+from .S_snap import integerSnap, rationalSnap
 
 
 def intify(expr):

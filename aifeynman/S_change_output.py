@@ -1,5 +1,7 @@
-import numpy as np
 import os
+
+import numpy as np
+
 from .S_run_bf_polyfit import run_bf_polyfit
 
 

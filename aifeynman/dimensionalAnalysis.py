@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
-from scipy.sparse.linalg import lsqr
 from scipy.linalg import *
-from sympy import Matrix
-from sympy import symbols, Add, Mul, S
+from sympy import Matrix, symbols
+
 from .getPowers import getPowers
 
 

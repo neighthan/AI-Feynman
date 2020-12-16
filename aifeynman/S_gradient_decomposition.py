@@ -1,22 +1,11 @@
+from itertools import chain, combinations
+
 import matplotlib.pyplot as plt
 import numpy as np
-import copy
-import os
-import sys
 import torch
 import torch.nn as nn
-
-from itertools import chain, combinations, islice
-from scipy.stats import mannwhitneyu
-from sklearn.neighbors import KernelDensity
 from scipy.stats import iqr
-
-
-from collections import Counter, namedtuple, OrderedDict
-from copy import deepcopy
-
-import torch.utils.data as data_utils
-
+from sklearn.neighbors import KernelDensity
 
 """
 This part discovers symmetry using the model fitted

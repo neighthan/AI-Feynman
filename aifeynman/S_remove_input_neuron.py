@@ -1,9 +1,8 @@
 """Remove an input neuron from a NN."""
 
-import torch
-import torch.nn as nn
 import numpy as np
 import torch
+import torch.nn as nn
 
 is_cuda = torch.cuda.is_available()
 

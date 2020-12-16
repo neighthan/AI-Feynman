@@ -1,7 +1,6 @@
 # The following are snap functions for finding a best approximated integer or rational number for a real number:
 
 import numpy as np
-from sympy import Rational
 
 
 def bestApproximation(x, imax):

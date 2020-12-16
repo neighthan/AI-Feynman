@@ -1,13 +1,11 @@
-import numpy as np
-import os
-from .S_polyfit_utils import getBest
-from .S_polyfit_utils import basis_vector
 import itertools
-import sys
-import csv
+
+import numpy as np
 import sympy
-from sympy import symbols, Add, Mul, S, simplify
 from scipy.linalg import fractional_matrix_power
+from sympy import Add, Mul, S, simplify, symbols
+
+from .S_polyfit_utils import basis_vector, getBest
 
 
 def mk_sympy_function(coeffs, num_covariates, deg):

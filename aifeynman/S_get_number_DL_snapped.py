@@ -1,6 +1,7 @@
 # Calculates the complexity of a number to be used for the Pareto frontier after snapping
 
 import numpy as np
+
 from .S_snap import bestApproximation
 
 

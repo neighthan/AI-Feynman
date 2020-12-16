@@ -1,33 +1,27 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 from os import path
-from .get_pareto import Point, ParetoSet
-from .RPN_to_pytorch import RPN_to_pytorch
-from .RPN_to_eq import RPN_to_eq
-from .S_NN_train import NN_train
-from .S_NN_eval import NN_eval
-from .S_symmetry import *
-from .S_separability import *
-from .S_change_output import *
-from .S_brute_force import brute_force
-from .S_combine_pareto import combine_pareto
-from sympy.parsing.sympy_parser import parse_expr
-from sympy import preorder_traversal, count_ops
-from .S_polyfit import polyfit
-from .S_get_symbolic_expr_error import get_symbolic_expr_error
+
+import numpy as np
+
+from .dimensionalAnalysis import dimensionalAnalysis
+from .get_pareto import ParetoSet, Point
 from .S_add_snap_expr_on_pareto import add_snap_expr_on_pareto
 from .S_add_sym_on_pareto import add_sym_on_pareto
-from .S_run_bf_polyfit import run_bf_polyfit
-from .S_final_gd import final_gd
-from .S_add_bf_on_numbers_on_pareto import add_bf_on_numbers_on_pareto
-from .dimensionalAnalysis import dimensionalAnalysis
-from .S_NN_get_gradients import evaluate_derivatives
 from .S_brute_force_comp import brute_force_comp
 from .S_brute_force_gen_sym import brute_force_gen_sym
+from .S_change_output import *
+from .S_combine_pareto import combine_pareto
 from .S_compositionality import *
+from .S_final_gd import final_gd
 from .S_gen_sym import *
+from .S_get_symbolic_expr_error import get_symbolic_expr_error
 from .S_gradient_decomposition import identify_decompositions
+from .S_NN_eval import NN_eval
+from .S_NN_get_gradients import evaluate_derivatives
+from .S_NN_train import NN_train
+from .S_run_bf_polyfit import run_bf_polyfit
+from .S_separability import *
+from .S_symmetry import *
 
 PA = ParetoSet()
 

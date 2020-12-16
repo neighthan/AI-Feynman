@@ -2,16 +2,9 @@
 # all the .dat files are created after I run this script
 # the .scr are needed to run the fortran code
 
-import csv
 import os
 import shutil
-import subprocess
-import sys
 from subprocess import call
-
-import numpy as np
-import sympy as sp
-from sympy.parsing.sympy_parser import parse_expr
 
 from .resources import _get_resource
 
@@ -57,7 +50,7 @@ def brute_force_gen_sym(
         f.write(data)
 
     try:
-        subprocess.call(["feynman_sr_mdl5"], timeout=try_time)
+        call(["feynman_sr_mdl5"], timeout=try_time)
     except:
         pass
 

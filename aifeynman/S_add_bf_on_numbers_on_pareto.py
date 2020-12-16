@@ -1,33 +1,21 @@
 # Adds on the pareto all the snapped versions of a given expression (all paramters are snapped in the end)
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torch.utils.data as utils
-from torch.autograd import Variable
 import copy
 import warnings
 
+import numpy as np
+
 warnings.filterwarnings("ignore")
 import sympy
-from .S_snap import integerSnap
-from .S_snap import zeroSnap
-from .S_snap import rationalSnap
-from .S_get_symbolic_expr_error import get_symbolic_expr_error
-from .get_pareto import Point, ParetoSet
-from .S_brute_force_number import brute_force_number
-
-from sympy import preorder_traversal, count_ops
-from sympy.abc import x, y
+from sympy import Symbol, count_ops, powsimp, preorder_traversal, simplify
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import Symbol, lambdify, N, simplify, powsimp
-from .RPN_to_eq import RPN_to_eq
 
+from .get_pareto import Point
+from .RPN_to_eq import RPN_to_eq
+from .S_brute_force_number import brute_force_number
 from .S_get_number_DL_snapped import get_number_DL_snapped
+from .S_get_symbolic_expr_error import get_symbolic_expr_error
+
 
 # parameters: path to data, math (not RPN) expression
 def add_bf_on_numbers_on_pareto(pathdir, filename, PA, math_expr):
@@ -35,9 +23,6 @@ def add_bf_on_numbers_on_pareto(pathdir, filename, PA, math_expr):
 
     def unsnap_recur(expr, param_dict, unsnapped_param_dict):
         """Recursively transform each numerical value into a learnable parameter."""
-        import sympy
-        from sympy import Symbol
-
         if (
             isinstance(expr, sympy.numbers.Float)
             or isinstance(expr, sympy.numbers.Integer)

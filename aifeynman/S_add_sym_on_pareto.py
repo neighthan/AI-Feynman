@@ -1,13 +1,8 @@
 # Combines 2 pareto fromtier obtained from the separability test into a new one.
 
-from .get_pareto import Point, ParetoSet
-from sympy.parsing.sympy_parser import parse_expr
 import numpy as np
-import matplotlib.pyplot as plt
-import os
-from os import path
-from sympy import Symbol, lambdify, N
-from .get_pareto import Point, ParetoSet
+
+from .get_pareto import Point
 from .S_get_expr_complexity import get_expr_complexity
 
 

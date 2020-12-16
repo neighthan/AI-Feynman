@@ -1,18 +1,10 @@
-from __future__ import print_function
-import torch
 import os
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import pandas as pd
+from itertools import combinations
+
 import numpy as np
 import torch
-from torch.utils import data
-import pickle
-from torch.optim.lr_scheduler import CosineAnnealingLR
-from matplotlib import pyplot as plt
-from itertools import combinations
-import time
+import torch.nn as nn
+import torch.nn.functional as F
 
 is_cuda = torch.cuda.is_available()
 

@@ -1,8 +1,8 @@
 import numpy as np
-from .S_snap import bestApproximation
-from .S_get_number_DL_snapped import get_number_DL_snapped
+from sympy import count_ops, preorder_traversal
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import preorder_traversal, count_ops
+
+from .S_get_number_DL_snapped import get_number_DL_snapped
 
 
 def get_expr_complexity(expr):

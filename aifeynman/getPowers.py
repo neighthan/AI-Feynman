@@ -1,12 +1,8 @@
-import numpy as np
-import pandas as pd
-from scipy.sparse.linalg import lsqr
-from scipy.linalg import *
-from sympy import Matrix
-from sympy import symbols, Add, Mul, S
-from numpy.linalg import matrix_rank
 from itertools import combinations
 
+import numpy as np
+from numpy.linalg import matrix_rank
+from scipy.linalg import *
 
 N = np.array(
     [

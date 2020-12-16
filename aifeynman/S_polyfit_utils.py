@@ -1,10 +1,8 @@
-import numpy as np
-from numpy import linalg, zeros, ones, hstack, asarray
 import itertools
-from matplotlib import pyplot as plt
+
+import numpy as np
+from numpy import asarray, hstack, ones, zeros
 from scipy.sparse.linalg import lsqr
-import os
-from sympy import symbols, Add, Mul, S
 
 
 def basis_vector(n, i):

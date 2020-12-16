@@ -1,16 +1,15 @@
-import numpy as np
-from .RPN_to_eq import RPN_to_eq
-from scipy.optimize import fsolve
-from sympy import lambdify, N
-import torch
 import copy
-import torch.nn as nn
-import torch.nn.functional as F
-from .get_pareto import Point, ParetoSet
-from .S_get_expr_complexity import get_expr_complexity
-from . import test_points
 import os
 import warnings
+
+import numpy as np
+import torch
+from sympy import N, lambdify
+
+from . import test_points
+from .get_pareto import Point
+from .RPN_to_eq import RPN_to_eq
+from .S_get_expr_complexity import get_expr_complexity
 
 warnings.filterwarnings("ignore")
 is_cuda = torch.cuda.is_available()
