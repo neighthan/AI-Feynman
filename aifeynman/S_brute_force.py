@@ -18,7 +18,9 @@ from .resources import _get_resource
 # sep_type = 3 for add and 2 for mult and 1 for normal
 
 
-def brute_force(pathdir, filename, BF_try_time, BF_ops_file_type, sep_type="*", sigma=10, band=0):
+def brute_force(
+    pathdir, filename, BF_try_time, BF_ops_file_type, sep_type="*", sigma=10, band=0
+):
     try_time = BF_try_time
     try_time_prefactor = BF_try_time
     file_type = BF_ops_file_type
@@ -44,17 +46,15 @@ def brute_force(pathdir, filename, BF_try_time, BF_ops_file_type, sep_type="*", 
         pass
 
     print("Trying to solve mysteries with brute force...")
-    print("Trying to solve {}".format(pathdir+filename))
+    print("Trying to solve {}".format(pathdir + filename))
 
-    shutil.copy2(pathdir+filename, "mystery.dat")
+    shutil.copy2(pathdir + filename, "mystery.dat")
 
-    data = "'{}' '{}' mystery.dat results.dat {:f} {:f}".format(_get_resource(file_type),
-                                                                _get_resource(
-                                                                    "arity2templates.txt"),
-                                                                sigma,
-                                                                band)
+    data = "'{}' '{}' mystery.dat results.dat {:f} {:f}".format(
+        _get_resource(file_type), _get_resource("arity2templates.txt"), sigma, band
+    )
 
-    with open("args.dat", 'w') as f:
+    with open("args.dat", "w") as f:
         f.write(data)
 
     if sep_type == "*":

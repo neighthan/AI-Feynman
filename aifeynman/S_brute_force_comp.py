@@ -16,7 +16,9 @@ from sympy.parsing.sympy_parser import parse_expr
 from .resources import _get_resource
 
 
-def brute_force_comp(pathdir, filename, BF_try_time, BF_ops_file_type, sigma=10, band=0):
+def brute_force_comp(
+    pathdir, filename, BF_try_time, BF_ops_file_type, sigma=10, band=0
+):
 
     try_time = BF_try_time
     try_time_prefactor = BF_try_time
@@ -43,17 +45,15 @@ def brute_force_comp(pathdir, filename, BF_try_time, BF_ops_file_type, sigma=10,
         pass
 
     print("Trying to solve mysteries with brute force...")
-    print("Trying to solve {}".format(pathdir+filename))
+    print("Trying to solve {}".format(pathdir + filename))
 
-    shutil.copy2(pathdir+filename, "mystery.dat")
+    shutil.copy2(pathdir + filename, "mystery.dat")
 
-    data = "'{}' '{}' mystery.dat results_comp.dat {:f} {:f}".format(_get_resource(file_type),
-                                                                     _get_resource(
-        "arity2templates.txt"),
-        sigma,
-        band)
+    data = "'{}' '{}' mystery.dat results_comp.dat {:f} {:f}".format(
+        _get_resource(file_type), _get_resource("arity2templates.txt"), sigma, band
+    )
 
-    with open("args.dat", 'w') as f:
+    with open("args.dat", "w") as f:
         f.write(data)
 
     try:

@@ -28,14 +28,15 @@ def brute_force_number(pathdir, filename):
         pass
 
     print("Trying to solve mysteries with brute force...")
-    print("Trying to solve {}".format(pathdir+filename))
+    print("Trying to solve {}".format(pathdir + filename))
 
-    shutil.copy2(pathdir+filename, "mystery.dat")
+    shutil.copy2(pathdir + filename, "mystery.dat")
 
-    data = "'{}' '{}' mystery.dat results.dat".format(_get_resource(file_type),
-                                                      _get_resource("arity2templates.txt"))
+    data = "'{}' '{}' mystery.dat results.dat".format(
+        _get_resource(file_type), _get_resource("arity2templates.txt")
+    )
 
-    with open("args.dat", 'w') as f:
+    with open("args.dat", "w") as f:
         f.write(data)
 
     try:

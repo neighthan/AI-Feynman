@@ -12,7 +12,6 @@ class Point(object):
         self.data = data
         self.id = id
 
-
     def __getitem__(self, index):
         """Indexing: get item according to index."""
         if index == 0:
@@ -25,7 +24,6 @@ class Point(object):
             return self.id
         else:
             raise Exception("Index {} is out of range!".format(index))
-
 
     def __setitem__(self, index, value):
         """Indexing: set item according to index."""
@@ -50,7 +48,6 @@ class ParetoSet(SortedKeyList):
     def __init__(self):
         super().__init__(key=lambda p: p.x)
 
-
     def _input_check(self, p):
         """Check that input is in the correct format.
 
@@ -70,15 +67,13 @@ class ParetoSet(SortedKeyList):
             return Point(x=p[0], y=p[1], data=None)
         else:
             raise TypeError("Must be instance of Point or 2-tuple.")
-    
-    
+
     def get_id_list(self):
         id_list = []
         for point in self:
             id_list.append(point.id)
         return id_list
 
-    
     def add(self, p):
         """Insert Point into set if minimal in first two indices.
 
@@ -95,7 +90,11 @@ class ParetoSet(SortedKeyList):
         # check right for dominated points:
         right = self.bisect_left(p)
 
-        while len(self) > right and self[right].y >= p.y and not (self[right].x == p.x and self[right].y == p.y):
+        while (
+            len(self) > right
+            and self[right].y >= p.y
+            and not (self[right].x == p.x and self[right].y == p.y)
+        ):
             self.pop(right)
             is_pareto = True
 
@@ -114,7 +113,6 @@ class ParetoSet(SortedKeyList):
 
         return is_pareto
 
-
     def __contains__(self, p):
         p = self._input_check(p)
 
@@ -127,7 +125,6 @@ class ParetoSet(SortedKeyList):
             left += 1
 
         return False
-
 
     def __add__(self, other):
         """Merge another pareto set into self.
@@ -144,7 +141,6 @@ class ParetoSet(SortedKeyList):
             self.add(item)
 
         return self
-
 
     def distance(self, p):
         """Given a Point, calculate the minimum Euclidean distance to pareto
@@ -164,19 +160,18 @@ class ParetoSet(SortedKeyList):
 
         # distance is zero if pareto optimal
         if dom.shape[0] == 0:
-            return 0.
+            return 0.0
 
         # add corners of all adjacent pairs
         candidates = np.zeros((dom.shape[0] + 1, 2))
         for i in range(dom.shape[0] - 1):
-            candidates[i, :] = np.max(dom[[i, i+1], :], axis=0)
+            candidates[i, :] = np.max(dom[[i, i + 1], :], axis=0)
 
         # add top and right bounds
         candidates[-1, :] = (p.x, np.min(dom[:, 1]))
         candidates[-2, :] = (np.min(dom[:, 0]), p.y)
 
         return np.min(np.sqrt(np.sum(np.square(candidates - point), axis=1)))
-
 
     def dominant_array(self, p):
         """Given a Point, return the set of dominating points in the set (in
@@ -201,7 +196,6 @@ class ParetoSet(SortedKeyList):
 
         return np.array([x[0:2] for x in domlist])
 
-
     def to_array(self):
         """Convert first two indices to numpy.ndarray
 
@@ -219,15 +213,12 @@ class ParetoSet(SortedKeyList):
         return A
 
     def get_pareto_points(self):
-        """Returns the x, y and data for each point in the pareto frontier
-        
-        """
+        """Returns the x, y and data for each point in the pareto frontier"""
         pareto_points = []
         for i, p in enumerate(self):
             pareto_points = pareto_points + [[p.x, p.y, p.data]]
-        
+
         return pareto_points
-        
 
     def from_list(self, A):
         """Convert iterable of Points into ParetoSet.
@@ -241,27 +232,25 @@ class ParetoSet(SortedKeyList):
         """
         for a in A:
             self.add(a)
-    
-    
+
     def plot(self):
         """Plotting the Pareto frontier."""
         array = self.to_array()
         plt.figure(figsize=(8, 6))
-        plt.plot(array[:, 0], array[:, 1], 'r.')
+        plt.plot(array[:, 0], array[:, 1], "r.")
         plt.show()
 
 
 if __name__ == "__main__":
     PA = ParetoSet()
     A = np.zeros((40, 2))
-    
+
     for i in range(40):
         x = np.random.rand()
         y = np.random.rand()
-        
+
         A[i, 0] = x
         A[i, 1] = y
-        
+
         PA.add(Point(x=x, y=y, data=None))
     paretoA = PA.to_array()
-

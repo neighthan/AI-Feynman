@@ -18,14 +18,15 @@ wd = 1e-2
 
 is_cuda = torch.cuda.is_available()
 
+
 class MultDataset(data.Dataset):
     def __init__(self, factors, product):
-        'Initialization'
+        "Initialization"
         self.factors = factors
         self.product = product
 
     def __len__(self):
-        'Denotes the total number of samples'
+        "Denotes the total number of samples"
         return len(self.product)
 
     def __getitem__(self, index):
@@ -35,10 +36,12 @@ class MultDataset(data.Dataset):
 
         return x, y
 
+
 def rmse_loss(pred, targ):
-    denom = targ**2
-    denom = torch.sqrt(denom.sum()/len(denom))
-    return torch.sqrt(F.mse_loss(pred, targ))/denom
+    denom = targ ** 2
+    denom = torch.sqrt(denom.sum() / len(denom))
+    return torch.sqrt(F.mse_loss(pred, targ)) / denom
+
 
 def NN_train(pathdir, filename, epochs=1000, lrs=1e-2, N_red_lr=4, pretrained_path=""):
     try:
@@ -51,23 +54,23 @@ def NN_train(pathdir, filename, epochs=1000, lrs=1e-2, N_red_lr=4, pretrained_pa
     except:
         pass
     try:
-        n_variables = np.loadtxt(pathdir+"%s" %filename, dtype='str').shape[1]-1
-        variables = np.loadtxt(pathdir+"%s" %filename, usecols=(0,))
+        n_variables = np.loadtxt(pathdir + "%s" % filename, dtype="str").shape[1] - 1
+        variables = np.loadtxt(pathdir + "%s" % filename, usecols=(0,))
 
-        epochs = 200*n_variables
-        if len(variables)<5000:
-            epochs = epochs*3
+        epochs = 200 * n_variables
+        if len(variables) < 5000:
+            epochs = epochs * 3
 
-        if n_variables==0 or n_variables==1:
+        if n_variables == 0 or n_variables == 1:
             return 0
 
         else:
-            for j in range(1,n_variables):
-                v = np.loadtxt(pathdir+"%s" %filename, usecols=(j,))
-                variables = np.column_stack((variables,v))
+            for j in range(1, n_variables):
+                v = np.loadtxt(pathdir + "%s" % filename, usecols=(j,))
+                variables = np.column_stack((variables, v))
 
-        f_dependent = np.loadtxt(pathdir+"%s" %filename, usecols=(n_variables,))
-        f_dependent = np.reshape(f_dependent,(len(f_dependent),1))
+        f_dependent = np.loadtxt(pathdir + "%s" % filename, usecols=(n_variables,))
+        f_dependent = np.reshape(f_dependent, (len(f_dependent), 1))
 
         factors = torch.from_numpy(variables)
         if is_cuda:
@@ -89,9 +92,9 @@ def NN_train(pathdir, filename, epochs=1000, lrs=1e-2, N_red_lr=4, pretrained_pa
                 self.linear1 = nn.Linear(ni, 128)
                 self.linear2 = nn.Linear(128, 128)
                 self.linear3 = nn.Linear(128, 64)
-                self.linear4 = nn.Linear(64,64)
-                self.linear5 = nn.Linear(64,1)
-            
+                self.linear4 = nn.Linear(64, 64)
+                self.linear5 = nn.Linear(64, 1)
+
             def forward(self, x):
                 x = F.tanh(self.linear1(x))
                 x = F.tanh(self.linear2(x))
@@ -100,38 +103,40 @@ def NN_train(pathdir, filename, epochs=1000, lrs=1e-2, N_red_lr=4, pretrained_pa
                 x = self.linear5(x)
                 return x
 
-        my_dataset = utils.TensorDataset(factors,product) # create your datset
-        my_dataloader = utils.DataLoader(my_dataset, batch_size=bs, shuffle=True) # create your dataloader
+        my_dataset = utils.TensorDataset(factors, product)  # create your datset
+        my_dataloader = utils.DataLoader(
+            my_dataset, batch_size=bs, shuffle=True
+        )  # create your dataloader
 
         if is_cuda:
             model_feynman = SimpleNet(n_variables).cuda()
         else:
             model_feynman = SimpleNet(n_variables)
 
-        if pretrained_path!="":
+        if pretrained_path != "":
             model_feynman.load_state_dict(torch.load(pretrained_path))
 
         check_es_loss = 10000
 
         for i_i in range(N_red_lr):
-            optimizer_feynman = optim.Adam(model_feynman.parameters(), lr = lrs)
+            optimizer_feynman = optim.Adam(model_feynman.parameters(), lr=lrs)
             for epoch in range(epochs):
                 model_feynman.train()
                 for i, data in enumerate(my_dataloader):
                     optimizer_feynman.zero_grad()
-                
+
                     if is_cuda:
                         fct = data[0].float().cuda()
                         prd = data[1].float().cuda()
                     else:
                         fct = data[0].float()
                         prd = data[1].float()
-                    
-                    loss = rmse_loss(model_feynman(fct),prd)
+
+                    loss = rmse_loss(model_feynman(fct), prd)
                     loss.backward()
                     optimizer_feynman.step()
-                
-                '''
+
+                """
                 # Early stopping
                 if epoch%20==0 and epoch>0:
                     if check_es_loss < loss:
@@ -143,14 +148,15 @@ def NN_train(pathdir, filename, epochs=1000, lrs=1e-2, N_red_lr=4, pretrained_pa
                     if check_es_loss < loss:
                         torch.save(model_feynman.state_dict(), "results/NN_trained_models/models/" + filename + ".h5")
                         check_es_loss = loss
-                '''
-                torch.save(model_feynman.state_dict(), "results/NN_trained_models/models/" + filename + ".h5")   
-            lrs = lrs/10
+                """
+                torch.save(
+                    model_feynman.state_dict(),
+                    "results/NN_trained_models/models/" + filename + ".h5",
+                )
+            lrs = lrs / 10
 
         return model_feynman
 
     except NameError:
-        print("Error in file: %s" %filename)
+        print("Error in file: %s" % filename)
         raise
-
-
