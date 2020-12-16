@@ -1,4 +1,3 @@
-import setuptools
 from numpy.distutils.core import Extension, setup
 
 sr1 = Extension(
